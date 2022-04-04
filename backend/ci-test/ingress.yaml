@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    nignx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  name: aspnet
+spec:
+  rules:
+  - host: ci-test.apps.c1.trash2gather.at
+    http:
+      paths:
+      - backend:
+          service:
+            name: aspnet
+            port:
+              name: aspnet-http
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - ci-test.apps.c1.trash2gather.at

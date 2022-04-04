@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aspnet
+spec:
+  template:
+    spec:
+      containers:
+      - name: aspnet
+        env:
+        - name: MYSQLCONNSTR_DNSDatabase
+          value: "server=mysql;port=3306;database=$(MYSQL_DATABASE);user=$(MYSQL_USER);password=$(MYSQL_PASSWORD)"

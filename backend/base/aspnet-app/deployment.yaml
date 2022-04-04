@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aspnet
+spec:
+  selector:
+    matchLabels:
+      app: aspnet
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: aspnet
+    spec:
+      containers:
+      - image: someRepo/aspnet-image:tag
+        imagePullPolicy: Always
+        name: aspnet
+        # env:
+        # - name: MYSQL_USER
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: shared-config
+        #       key: MYSQL_USER
+        #       optional: false
+        # - name: MYSQL_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: shared-secret
+        #       key: MYSQL_PASSWORD
+        #       optional: false
+        # - name: MYSQL_DATABASE
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       key: MYSQL_DATABASE
+        #       name: shared-config
+        envFrom:
+        - configMapRef:
+            name: aspnet-env
+        - configMapRef:
+            name: shared-config
+        - secretRef:
+            name: shared-secret
+        resources:
+          requests:
+            memory: 200Mi
+            cpu: 100m
+          limits:
+            memory: 1500Mi
+            cpu: 1000m
+        ports:
+        - containerPort: 8080
+          name: aspnet

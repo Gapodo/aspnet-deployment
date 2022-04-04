@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-root
+  annotations:
+    "sealedsecrets.bitnami.com/managed": "true"
+    "sealedsecrets.bitnami.com/namespace-wide": "true"
+  creationTimestamp: null
+  namespace: <someNamespace needed for sealed secrets>
+type: Opaque
+stringData:
+  MYSQL_ROOT_PASSWORD: <Password>

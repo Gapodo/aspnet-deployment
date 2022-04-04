@@ -1,0 +1,22 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/namespace-wide: "true"
+  creationTimestamp: null
+  name: mysql-root
+  namespace: ci-test
+spec:
+  encryptedData:
+    MYSQL_ROOT_PASSWORD: AgCJHcU9I9HfzFXLPj1+2gmdNtW3PP/wF7vaslEDzkhv3vO/LjS4agpQWzDmHYMvYKloWZeX9EZ4ADnPCWeGUNOd0+lBU4YCt/H6it065d5OBY7LAyXz/1l90HdQ9q+QRyCv7nHIX2+Q8LUHg8SEn0MSqyCPap5MkPZl/1ZUTAzDm6hQq1QUHNF6N8vFNkyl5XJl31G13dPOX+RFa6t04gd5kSrCPQ/JsdoizMCiQkVJ7A9iCUX5xCFtddhoe4L24920BqAFbmGNJWmhsLL089JNT/2xvdtFzfMc/7PiiQX1UPHBAra4W1y/apj7+N1CItJt4rjcPpBe/oD9BOCQIxI8/eG3LEiNbVwB07K5Sh7wdAnJSgDPcd9cu4JZNMxQcL5PeTis7LXB2HgG3IazO5D+9BJvNOfAL0L/3oeD/rGCfmRu3O0rB7/JFbQv7jVdwFzZRVEAXh+F/0WmLgXUx5ZgpSPoKZ6o9aEu9e+ziSky8Z3+aqrgRYjKdINDLbjHjaghJ2mNlgWqck8IT2TzJ7CH4dKdu0P/vrB4jznInQg6t+Lsk/thxr67gT+pUVZb8ZcXTf7oNfoEOb6eneIL2MuE4TaSNSbiGEAmq6Qu42jcXOUUbB2RyDuOfaC0vz73Ieu0SspT8opqDaY1mUm1qXt+wRgkt6y5DecqRjOsaBzOXyPljiv3uQcD1Q3gNdqKH8ZVbFAKlKTbPLPVGb0dB0/dL7TRVMNsGcJg9Se3bw==
+  template:
+    data: null
+    metadata:
+      annotations:
+        sealedsecrets.bitnami.com/managed: "true"
+        sealedsecrets.bitnami.com/namespace-wide: "true"
+      creationTimestamp: null
+      name: mysql-root
+      namespace: ci-test
+    type: Opaque
+

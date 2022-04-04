@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - image: mysql:8
+        name: mysql
+        volumeMounts:
+        - name: "mysql-cnf"
+          mountPath: "/etc/mysql/conf.d/custom.cnf"
+          subPath: "custom.cnf"
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+        envFrom:
+          - configMapRef:
+              name: shared-config
+          - secretRef:
+              name: shared-secret
+          - secretRef:
+              name: mysql-root
+        resources:
+          requests:
+            memory: 100Mi
+            cpu: 50m
+          limits:
+            memory: 1Gi
+            cpu: 500m
+        ports:
+        - containerPort: 3306
+          name: mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-data
+      - name: mysql-cnf
+        configMap:
+          name: mysql-cnf
