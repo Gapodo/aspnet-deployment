@@ -1,0 +1,25 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  labels:
+    env: t2g
+  name: t2g-dev
+  namespace: argocd
+spec:
+  clusterResourceBlacklist:
+  - group: '*'
+    kind: '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: Namespace
+  - group: '*'
+    kind: PersistentVolume
+  description: trash2gather dev stages
+  destinations:
+  - name: c1.t2g.at
+    namespace: t2g-dev-*
+    server: '*'
+  namespaceResourceWhitelist:
+  - group: '*'
+    kind: '*'

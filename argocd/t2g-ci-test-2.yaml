@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: t2g-ci-test-2
+  namespace: argocd
+spec:
+  destination:
+    namespace: t2g-ci-test-2
+    name: c1.t2g.at
+  project: t2g-dev
+  source:
+    directory:
+      recurse: true
+    path: backend/ci-test/
+    repoURL: git@github.com:trash2gather/trash2gather-deployment.git
+    targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
