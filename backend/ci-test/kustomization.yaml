@@ -1,8 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-bases:
-- ../base
 
 namespace: ci-test
 nameSuffix: -ci-test
@@ -11,15 +9,17 @@ commonLabels:
   trash2gather.at/stage: ci-test
 
 resources:
+- ../base
 - mysql-root.sealed.yaml
 - sharedSecret.sealed.yaml
 - ingress.yaml
 
+
 configMapGenerator:
-- name: aspnet-env
-  behavior: merge
+- behavior: merge
   envs:
-  - "./aspnet.env"
+  - ./aspnet.env
+  name: aspnet-env
 
 patchesStrategicMerge:
 - |-
@@ -38,60 +38,48 @@ patchesStrategicMerge:
 
 replacements:
 - source:
-    version: v1
+    fieldPath: metadata.name
     kind: Service
     name: mysql
-    fieldPath: metadata.name
+    version: v1
   targets:
-  - select:
-      version: v1
+  - fieldPaths:
+    - data.MYSQL_SERVER
+    select:
       kind: ConfigMap
       name: shared-config
-    fieldPaths:
-    - data.MYSQL_SERVER
-# - source:
-#     version: v1
-#     kind: Service
-#     name: mysql
-#     fieldPath: metadata.name
-#   targets:
-#   - select:
-#       version: v1
-#       kind: Service
-#       name: mysql
-#     fieldPaths:
-#     - spec.selector.app
+      version: v1
 - source:
+    fieldPath: spec.template.metadata.name
     group: bitnami.com
-    version: v1alpha1
     kind: SealedSecret
     name: mysql-root
-    fieldPath: spec.template.metadata.name
+    version: v1alpha1
   targets:
-  - select:
+  - fieldPaths:
+    - metadata.name
+    select:
       group: bitnami.com
-      version: v1alpha1
       kind: SealedSecret
       name: mysql-root
-    fieldPaths:
-    - metadata.name
+      version: v1alpha1
 - source:
+    fieldPath: spec.template.metadata.name
     group: bitnami.com
-    version: v1alpha1
     kind: SealedSecret
     name: shared-secret
-    fieldPath: spec.template.metadata.name
+    version: v1alpha1
   targets:
-  - select:
+  - fieldPaths:
+    - metadata.name
+    select:
       group: bitnami.com
-      version: v1alpha1
       kind: SealedSecret
       name: shared-secret
-    fieldPaths:
-    - metadata.name
+      version: v1alpha1
 
 
 images:
-  - name: someRepo/aspnet-image
-    newName: "gapodo/aspnet-test"
-    newTag: "2088602942-1"
+- name: someRepo/aspnet-image
+  newName: gapodo/aspnet-test
+  newTag: 2088602942-1
